@@ -15,7 +15,7 @@ let currentContent = ''; //temporarily stores the content you are typing. Update
 function loadEntries(){
     //Get the saved data from browser storage. Asks browser if there is any saved diary entries. 
     const saved = localStorage.getItem('diaryEntries');
-    //If there is saved entries, saved will have a list of id, title, content, and date for every entry.
+    //If there is saved entries, saved will have a array of id, title, content, and date for every entry.
 
     //If saved 
     if (saved) { 
@@ -30,3 +30,19 @@ function saveEntries() {
     //Then save it to browser storage 
     localStorage.setItem('diaryEntries', JSON.stringify(entries));
 }
+
+//-----------------------------------
+// Create Entry 
+//-----------------------------------
+// Creates a new diary entry and saves it. 
+function createEntry(title, content) {
+    const newEntry = { 
+        id: Date.now(),  //unique ID
+        title: title, 
+        content: content, 
+        date: new Date().toISOString()  //Current date/time 
+    }; 
+    entries.unshift(newEntry); //Add to begining. unshift() will add the new entry to the start of the array 
+    saveEntries(); 
+}
+
