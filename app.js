@@ -46,3 +46,16 @@ function createEntry(title, content) {
     saveEntries(); 
 }
 
+//------------------------------
+// Update Entry 
+//------------------------------
+// Modifies an existing entry when you edit it. Takes 3 inputs: which entry by ID, new title, and new content.
+function updateEntry(id, title, content) { 
+    const index = entries.findIndex(entry => entry.id === id); //findIndex() searches the array for the entry with matching ID. -1 if not found   
+    if (index !== -1) {  //If entry found. Update the entry at that position. Change the title, content, and date.   
+        entries[index].title = title;
+        entries[index].content = content;
+        entries[index].date = new Date().toISOString();
+        saveEntries();
+    }
+}
