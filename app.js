@@ -59,3 +59,15 @@ function updateEntry(id, title, content) {
         saveEntries();
     }
 }
+
+//--------------------------------
+// Delete Entry 
+//--------------------------------
+// Removes an entry from your diary with confirmation. Takes the id of the entry to delete.  
+function deleteEntry(id) { 
+    if (confirm('Are you sure you want to delete this entry?')) { 
+        entries = entries.filter(entry => entry.id !== id);  //filter() creates a new array with only entries that matches the condition 
+        saveEntries();
+        render();  //redraw the screen to show the entry is gone
+    }
+}
