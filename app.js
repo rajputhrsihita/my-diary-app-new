@@ -71,3 +71,19 @@ function deleteEntry(id) {
         render();  //redraw the screen to show the entry is gone
     }
 }
+
+//----------------------------
+// Format Date 
+//----------------------------
+//Converts ugly date strings to human readable dates. 
+function formatDate(dateString) {
+    const date = new Date(dateString)
+    const options = {    //tells how to format the date 
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    };
+    return date.toLocaleDateString('en-US', options);
+}
