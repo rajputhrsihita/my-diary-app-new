@@ -87,3 +87,101 @@ function formatDate(dateString) {
     };
     return date.toLocaleDateString('en-US', options);
 }
+
+//---------------------------
+// Render List View 
+//----------------------------
+
+function renderListView() {
+// Create main container  
+//Create New Entry button 
+//Create grid for entries
+//If no entries, show empty message 
+//If there are entries, create a card for each one 
+//Return everything
+
+    const container = document.createElement('div');  //an empty <div> element to hold everything 
+
+    //New Entry Button
+    const newEButton = document.createElement('button');  //creates a button 
+    newEButton.className = 'btn btn-primary';  //Adds CSS classes for styling, btn is basic button styles and btn-primary is purple gradient styling 
+    newEButton.textContent =  '\u270F\uFE0F New Entry'; //Sets the button text to "New Entry"   //previous text is for emoji 
+    newEButton.onclick = () => {
+        currentView = 'edit';   //switching to edit view 
+        editingId = null;    //not editing existing entry
+        currentTitle = '';   //clear any old title
+        currentContent = '';  //clear any old content 
+        render();  //redraw screen
+    };
+    container.appendChild(newEButton); //adds the button to the container 
+
+    //Grid Entries. This will hold all card entries  
+    const grid = document.createElement('div'); //creates another <div> for the grid 
+    grid.className = 'entries-grid'; //entries-grid CSS class makes it a grid layout 
+
+    //Empty state 
+    if (entries.length === 0) {   //checks if entries array is empty 
+        const empty = document.createElement('div');  //creates a <div> for the empty message 
+        empty.className = 'empty-state';
+        empty.innerHTML = '<p>&#128221 No entries yet. Start writing your first diary entry!</p>';
+        grid.appendChild(empty);
+    } else { 
+        entries.forEach(entry => {   //loops through each entry in your diary. entry is the current item in the loop. Create a card for each entry.   
+            const card = document.createElement('div');
+            card.className = 'entry-card';
+
+            //Title
+            const title = document.createElement('h3'); //heading level 3 
+            title.textContent = entry.title;
+            card.appendChild(title);
+
+            //Date 
+            const date = document.createElement('span'); //span is for small inline text 
+            date.className = 'entry-date';
+            date.textContent = formatDate(entry.date);
+            card.appendChild(date);
+
+            //Preview 
+            const preview = document.createElement('p'); //creates a paragraph for the preview 
+            preview.className = 'entry-preview';
+            const previewText = entry.content.substring(0, 150); //gets the first 150 characters 
+            preview.textContent = previewText + (entry.content.length > 150 ? '...' : ''); //adds ... if content is more than 150 words otherwise nothing(no dots) 
+            card.appendChild(preview);
+
+            //Actions 
+            const actions = document.createElement('div'); //creates a <div> to hold edit and delete buttons 
+            actions.className = 'entry-actions';
+
+            const editBtn = document.createElement('button');  
+            editBtn.className = 'btn btn-small';
+            editBtn.textContent = 'Edit';
+            editBtn.onclick = () => {   //when clicked 
+                currentView = 'edit';  //switch to edit mode 
+                editingId = entry.id; //remember which entry we are editing 
+                currentTitle = entry.title; //load this entry's title 
+                currentContent = entry.content; //load this entry's content 
+                render();//redraw the screen 
+            };
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'btn btn-small btn-danger'; //btn is the basic button style, btn-small is smaller size and btn-danger is red colour 
+            deleteBtn.textContent = 'Delete';
+            deleteBtn.onclick = () => deleteEntry(entry.id); //when clicked, calls deleteEntry() with entry's ID
+
+            actions.appendChild(editBtn);
+            actions.appendChild(deleteBtn);
+            card.appendChild(actions);
+            grid.appendChild(card);
+        });
+    }
+
+    container.appendChild(grid);
+    return container;
+}
+
+//--------------------------------
+// Render Edit View 
+//--------------------------------
+function renderEditView() { 
+
+}
