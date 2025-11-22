@@ -183,5 +183,107 @@ function renderListView() {
 // Render Edit View 
 //--------------------------------
 function renderEditView() { 
+//Create container
+//Create heding 
+//Create title input field
+//Create content text area 
+//Create save button 
+//Create delete button 
+
+    const container = document.createElement('div'); //will hold the entire form 
+    container.className = 'editor';
+
+    //Title 
+    const heading = document.createElement('h2'); //heading level 2 
+    heading.textContent = editingId ? 'Edit Entry' : 'New Entry';
+    container.appendChild(heading);
+
+    //Title Input
+    const titleGroup = document.createElement('div'); //create a container for the label + input 
+    titleGroup.className = 'form-group';
+    
+    const titleLabel = document.createElement('label'); //creates a <label> element. Labels tell users what the input is for.   
+    titleLabel.textContent = 'Title';
+    titleGroup.appendChild(titleLabel);
+
+    const titleInput = document.createElement('input'); //creates an <input> element. This is where you type the title. <input> is for single line   
+    titleInput.type = 'text';
+    titleInput.className = 'input';
+    titleInput.placeholder = 'Give your entry a title ...'; //placeholder is the grey hint text which appears when empty. Disappears when you start typing  
+    titleInput.value = currentTitle; //if creating new then empty, if editing then loads existing title  
+    //We need to remember what we typed. 
+    titleInput.oninput = (e) => currentTitle = e.target.value; // updates the variables as we type 
+    //e.target.value is the text you just typed 
+    // currentTitle is to update the variable 
+    //(e) => is the arrow function with event parameter. 
+    //titleInput.oninput is the event listener that runs every time you type 
+    // e is the event object i.e., info about what happened 
+    //e.target is the elemnt that triggered the event i.e., titleInput 
+    //e.target.value which is the current text in the input     
+
+    titleGroup.appendChild(titleInput);
+
+    container.appendChild(titleGroup);
+
+    //Content Input 
+    const contentGroup = document.createElement('div');  //create container + label for content area 
+    contentGroup.className = 'form-group';
+
+    const contentLabel = document.createElement('label');
+    contentLabel.textContent = 'Your thoughts';
+    contentGroup.appendChild(contentLabel);
+
+    const contentInput = document.createElement('textarea'); //creates a <textarea> element. <textarea> is for multiple lines  
+    contentInput.className = 'textarea';
+    contentInput.placeholder = 'Write about your day, thoughts, feelings ...'; //hint text when textarea is empty 
+    contentInput.value = currentContent; //if editing loads existing content, if new then empty 
+    contentInput.rows = 15; //sets the height to 15 rows of text. can be resized by users if needed 
+    contentInput.oninput = (e) => currentContent = e.target.value; //updates currentContent every time you type 
+    contentGroup.appendChild(contentInput);
+
+    container.appendChild(contentGroup);
+
+    //Buttons 
+    const btnGroup = document.createElement('div'); //creates a container for the Save and Cancel buttons 
+    btnGroup.className = 'editor-actions';
+
+    const saveBtn = document.createElement('button');
+    saveBtn.className = 'btn btn-primary';
+    saveBtn.textContent = '\u{1F4BE} Save Entry';
+    saveBtn.onclick = () => {
+        if (!currentTitle.trim() || !currentContent.trim()) {  //checks if title or content is empty. trim() removes spaces from start/end  
+            alert('please fill in both title and content');
+            return;
+        }
+
+        if(editingId) {  //checks if editing an existing entry or creating new 
+            updateEntry(editingId, currentTitle, currentContent);
+        } else { 
+            createEntry(currentTitle, currentContent);
+        }
+
+        currentView = 'list'; //switch back to list view 
+        editingId = null; //no longer editing 
+        currentTitle = ''; //clear title variable. //clear variables so that the next time you click "New Entry", fields will be empty.
+        currentContent = ''; //clear content variable 
+        render();
+    };
+
+    const cancelBtn = document.createElement('button'); //Changes are not saved.  
+    cancelBtn.className = 'btn btn-secondary';
+    cancelBtn.textContent = 'Cancel';
+    cancelBtn.onclick = () => {
+        currentView = 'list'; //goes back to list view 
+        editingId = null;
+        currentTitle = ''; 
+        currentContent = '';
+        render();
+    };
+
+    btnGroup.appendChild(saveBtn);
+    btnGroup.appendChild(cancelBtn);
+    container.appendChild(btnGroup);
+
+    return container;
 
 }
