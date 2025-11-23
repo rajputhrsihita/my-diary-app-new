@@ -341,3 +341,14 @@ function render() {
     appDiv.appendChild(footer);
 
 }
+
+//----------------------------------------
+// Initialize App
+//----------------------------------------
+function init() {
+    loadEntries();
+    render();
+}
+
+//To start the app when the page loads 
+document.addEventListener('DOMContentLoaded', init);
