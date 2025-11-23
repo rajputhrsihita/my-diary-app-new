@@ -287,3 +287,57 @@ function renderEditView() {
     return container;
 
 }
+
+//----------------------------------
+// Main Render Function
+//----------------------------------
+//Draws the entire application on the screen
+function render() { 
+//Clear everything 
+//Create header 
+//Create container 
+//Show list or edit view 
+//Create footer 
+//Everything appears on screen 
+    const appDiv = document.getElementById('app'); //This is the main container for the entire app 
+    appDiv.innerHTML = ''; //Clear everything. Starts with a blank canvas  
+
+    //create header 
+    const header = document.createElement('header');
+    header.className = 'header';
+
+    const title = document.createElement('h1');
+    title.textContent = '\u{1F4D4} My Personal Diary';
+    header.appendChild(title);
+
+    const subtitle = document.createElement('p');
+    subtitle.className = 'subtitle';
+    subtitle.textContent = 'Record your thoughts, memories, and daily reflections';
+    header.appendChild(subtitle);
+
+    appDiv.appendChild(header);
+
+    //Create container
+    const container = document.createElement('div');
+    container.className = 'container';
+
+    //Render current view 
+    if (currentView === 'list') { 
+        container.appendChild(renderListView());
+    } else { 
+        container.appendChild(renderEditView());
+    }
+
+    appDiv.appendChild(container);
+
+    //Create footer 
+    const footer = document.createElement('footer');
+    footer.className = 'footer';
+
+    const footerText = document.createElement('p');
+    footerText.textContent = 'All entries are stored locally in your browser. Your privacy is protected.';
+    footer.appendChild(footerText);
+
+    appDiv.appendChild(footer);
+
+}
